@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:word_generator/word_generator.dart';
+import 'package:wordum/view_models/word_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+      create: (context) => WordView(),
       child: MaterialApp(
         title: 'Wordum',
         theme: ThemeData(
@@ -22,27 +23,6 @@ class MyApp extends StatelessWidget {
         home: const MyHomePage(),
       ),
     );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  final wordGenerator = WordGenerator();
-  late String newWord;
-
-  MyAppState(){
-    newWord = wordGenerator.randomNoun();
-  }
-
-  void getNext() {
-    newWord = wordGenerator.randomNoun();
-    wordsToLearn[wordsToLearn.length - 1] == newWord ? getNext() : notifyListeners();
-  }
-
-  var wordsToLearn = <String>[];
-
-  void addWord() {
-    wordsToLearn.add(newWord);
-    notifyListeners();
   }
 }
 
@@ -116,7 +96,7 @@ class NewWordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<WordView>();
     var newWord = appState.newWord;
 
     IconData satisfied = Icons.sentiment_satisfied;
@@ -196,7 +176,7 @@ class DictionaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<WordView>();
 
     if (appState.wordsToLearn.isEmpty){
       return const Center(
