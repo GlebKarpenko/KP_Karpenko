@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wordum/view_models/translation.dart';
 
 class TranslatePage extends StatelessWidget {
-  const TranslatePage({super.key});
+  TranslatePage({super.key});
+  var _inputText = '';
+  var _translatedText = '';
+  var _selectedLanguage = 'english';
+
+  final Translation _translation = Translation('caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e');
+  final TextEditingController _outputTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,11 @@ class TranslatePage extends StatelessWidget {
                   child: Text(value),
                 );
               }).toList(),
-              onChanged: (String? newValue) {},
+              onChanged: (String? newValue) {
+                if (newValue != null){
+                  _selectedLanguage = newValue;
+                }
+              },
               hint: const Text('Select Language'),
             ),
             const SizedBox(height: 20),
@@ -28,7 +39,9 @@ class TranslatePage extends StatelessWidget {
                 labelText: 'Enter text to translate',
                 border: OutlineInputBorder(),
               ),
-              onChanged: (String newValue) {},
+              onChanged: (String newValue) {
+                _inputText = newValue;
+              },
             ),
             const SizedBox(height: 20),
             Container(
@@ -37,15 +50,33 @@ class TranslatePage extends StatelessWidget {
               color: Colors.grey,
             ),
             const SizedBox(height: 20),
-            const TextField(
+            TextField(
               readOnly: true,
               decoration: InputDecoration(
                 labelText: 'Translation',
               ),
+              controller: _outputTextController,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _translateText();
+              },
+              child: const Text('Translate'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _translateText() async {
+    try {
+      final translatedText =
+          await _translation.translate(_inputText, 'es');
+      _translatedText = translatedText;
+      _outputTextController.text = _translatedText;
+    } catch (e) {
+      debugPrint('Error translating text: $e');
+    }
   }
 }
