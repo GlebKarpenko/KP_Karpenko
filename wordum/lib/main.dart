@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
         title: 'Wordum',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 181, 113, 41)),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 181, 113, 41)),
         ),
         home: const MyHomePage(),
       ),

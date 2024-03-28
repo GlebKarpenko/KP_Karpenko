@@ -5,13 +5,15 @@ class WordView extends ChangeNotifier {
   final wordGenerator = WordGenerator();
   late String newWord;
 
-  WordView(){
+  WordView() {
     newWord = wordGenerator.randomNoun();
   }
 
   void getNext() {
     newWord = wordGenerator.randomNoun();
-    wordsToLearn[wordsToLearn.length - 1] == newWord ? getNext() : notifyListeners();
+    wordsToLearn[wordsToLearn.length - 1] == newWord
+        ? getNext()
+        : notifyListeners();
   }
 
   var wordsToLearn = <String>[];
