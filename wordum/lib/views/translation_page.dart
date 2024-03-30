@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:wordum/view_models/translation.dart';
 
-class TranslatePage extends StatelessWidget {
+class TranslatePage extends StatefulWidget {
+  const TranslatePage({super.key});
+
+  @override
+  _TranslatePageState createState() => _TranslatePageState();
+}
+
+class _TranslatePageState extends State<TranslatePage> {
   String _inputText = '';
   String _translatedText = '';
-  String _selectedLanguage = 'english';
-  List<String> _availableLanguages = [];
+  String _selectedLanguage = 'Spanish';
+  String? _selectedLanguageCode = 'es';
+  Map<String, String> _availableLanguages = {};
 
   final Translation _translation = Translation('caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e');
   final TextEditingController _outputTextController = TextEditingController();
 
-  TranslatePage() {
+  @override
+  void initState() {
+    super.initState();
     _getLanguages();
   }
 
@@ -24,16 +33,19 @@ class TranslatePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownButton<String>(
-              items: _availableLanguages 
-                  .map((String value) {
+              value: _selectedLanguage,
+              items: _availableLanguages.entries.map((MapEntry<String, String> entry) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
+                  value: entry.key,
+                  child: Text(entry.key),
                 );
               }).toList(),
               onChanged: (String? newValue) {
                 if (newValue != null){
-                  _selectedLanguage = newValue;
+                  setState(() {
+                    _selectedLanguage = newValue;
+                    _selectedLanguageCode = _availableLanguages[_selectedLanguage];
+                  });
                 }
               },
               hint: const Text('Select Language'),
@@ -45,7 +57,9 @@ class TranslatePage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (String newValue) {
-                _inputText = newValue;
+                setState(() {
+                  _inputText = newValue;
+                });
               },
             ),
             const SizedBox(height: 20),
@@ -76,21 +90,23 @@ class TranslatePage extends StatelessWidget {
 
   Future<void> _getLanguages() async {
     try {
-      final response = 
-        await _translation.getLanguages();
-      _availableLanguages = response;
+      final response = await _translation.getLanguages();
+      setState(() {
+        _availableLanguages = response;
+      });
     } catch (e) {
       debugPrint('Error getting available languages');
     }
-    print(_availableLanguages);
   }
 
   Future<void> _translateText() async {
+    print(_selectedLanguageCode);
     try {
-      final response =
-          await _translation.translate(_inputText, _selectedLanguage);
-      _translatedText = response;
-      _outputTextController.text = _translatedText;
+      final response = await _translation.translate(_inputText, _selectedLanguageCode);
+      setState(() {
+        _translatedText = response;
+        _outputTextController.text = _translatedText;
+      });
     } catch (e) {
       debugPrint('Error translating text: $e');
     }

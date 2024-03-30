@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = const DictionaryPage();
         break;
       case 2:
-        page = TranslatePage();
+        page = const TranslatePage();
         break;
       default:
         throw UnimplementedError(
