@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:wordum/view_models/translation.dart';
 
 class TranslatePage extends StatelessWidget {
-  TranslatePage({super.key});
-  var _inputText = '';
-  var _translatedText = '';
-  var _selectedLanguage = 'english';
+  String _inputText = '';
+  String _translatedText = '';
+  String _selectedLanguage = 'english';
+  List<String> _availableLanguages = [];
 
   final Translation _translation = Translation('caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e');
   final TextEditingController _outputTextController = TextEditingController();
+
+  TranslatePage() {
+    _getLanguages();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class TranslatePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownButton<String>(
-              items: <String>['English', 'Spanish', 'French', 'German']
+              items: _availableLanguages 
                   .map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -52,7 +57,7 @@ class TranslatePage extends StatelessWidget {
             const SizedBox(height: 20),
             TextField(
               readOnly: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Translation',
               ),
               controller: _outputTextController,
@@ -69,11 +74,22 @@ class TranslatePage extends StatelessWidget {
     );
   }
 
+  Future<void> _getLanguages() async {
+    try {
+      final response = 
+        await _translation.getLanguages();
+      _availableLanguages = response;
+    } catch (e) {
+      debugPrint('Error getting available languages');
+    }
+    print(_availableLanguages);
+  }
+
   Future<void> _translateText() async {
     try {
-      final translatedText =
-          await _translation.translate(_inputText, 'es');
-      _translatedText = translatedText;
+      final response =
+          await _translation.translate(_inputText, _selectedLanguage);
+      _translatedText = response;
       _outputTextController.text = _translatedText;
     } catch (e) {
       debugPrint('Error translating text: $e');
