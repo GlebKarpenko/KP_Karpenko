@@ -11,6 +11,10 @@ class WordView extends ChangeNotifier {
 
   void getNext() {
     newWord = wordGenerator.randomNoun();
+    if (wordsToLearn.isEmpty){
+      notifyListeners();
+      return;
+    }
     wordsToLearn[wordsToLearn.length - 1] == newWord
         ? getNext()
         : notifyListeners();
