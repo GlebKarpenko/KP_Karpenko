@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordum/view_models/word_view.dart';
+import 'package:wordum/models/word_generator.dart';
 import 'package:wordum/views/home_page.dart';
 
 void main() {
