@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wordum/models/word_generator.dart';
+import 'package:wordum/models/dictionary.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
@@ -44,13 +43,36 @@ class _DictionaryPageState extends State<DictionaryPage>{
   }
 }
 
-class WordList extends StatelessWidget {
+class WordList extends StatefulWidget {
   const WordList({super.key});
+
+  @override
+  State<WordList> createState() => _WordListState();
+}
+
+class _WordListState extends State<WordList> {
+  List<String> wordsToLearn = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWords();
+  }
+
+  Future<void> _fetchWords() async {
+    try {
+      List<String> words = await Dictionary.getWords();
+      setState(() {
+        wordsToLearn = words;
+      });
+    } catch (e) {
+      debugPrint('Error getting word list: $e');
+    }
+  }
 
   @override 
   Widget build(BuildContext context){
-    var appState = context.watch<WordView>();
-    if (appState.wordsToLearn.isEmpty) {
+    if (wordsToLearn.isEmpty) {
       return const Center(
         child: Text('No words to learn yet'),
       );
@@ -60,9 +82,9 @@ class WordList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child:
-              Text('You have ${appState.wordsToLearn.length} words to learn:'),
+              Text('You have ${wordsToLearn.length} words to learn:'),
         ),
-        for (var word in appState.wordsToLearn)
+        for (var word in wordsToLearn)
           ListTile(
             leading: const Icon(Icons.edit),
             title: Text(word),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:word_generator/word_generator.dart';
+import 'package:wordum/models/dictionary.dart';
 
 class WordView extends ChangeNotifier {
   final wordGenerator = WordGenerator();
@@ -9,21 +10,21 @@ class WordView extends ChangeNotifier {
     newWord = wordGenerator.randomNoun();
   }
 
-  void getNext() {
+  void getNext () async {
+    List<String> words = await Dictionary.getWords();
     newWord = wordGenerator.randomNoun();
-    if (wordsToLearn.isEmpty){
+    if (words.isEmpty){
       notifyListeners();
       return;
     }
-    wordsToLearn[wordsToLearn.length - 1] == newWord
+
+    words[words.length - 1] == newWord
         ? getNext()
         : notifyListeners();
   }
 
-  var wordsToLearn = <String>[];
-
-  void addWord() {
-    wordsToLearn.add(newWord);
+  void addWord() async {
+    await Dictionary.addWord(newWord);
     notifyListeners();
   }
 }
