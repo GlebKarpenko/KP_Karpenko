@@ -1,23 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Dictionary extends ChangeNotifier{
-  static Future<List<String>> getWords() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('words') ?? [];
-  }  
-  
+class Dictionary {
+  static late SharedPreferences _preferences;
+  static const _keyWordList = 'words';
+
+  static Future init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  static List<String> getWords() {
+    return _preferences.getStringList(_keyWordList) ?? [];
+  }
+
   static Future<void> addWord(String word) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> words = prefs.getStringList('words') ?? [];
+    List<String> words = _preferences.getStringList(_keyWordList) ?? [];
     words.add(word);
-    await prefs.setStringList('words', words);
+    _preferences.setStringList(_keyWordList, words);
   }
 
   static Future<void> removeWord(String word) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> words = prefs.getStringList('words') ?? [];
+    List<String> words = _preferences.getStringList(_keyWordList) ?? [];
     words.remove(word);
-    await prefs.setStringList('words', words);
+    _preferences.setStringList(_keyWordList, words);
   }
 }

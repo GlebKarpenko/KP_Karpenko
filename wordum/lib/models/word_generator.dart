@@ -11,7 +11,7 @@ class WordView extends ChangeNotifier {
   }
 
   void getNext () async {
-    List<String> words = await Dictionary.getWords();
+    List<String> words = Dictionary.getWords();
     newWord = wordGenerator.randomNoun();
     if (words.isEmpty){
       notifyListeners();

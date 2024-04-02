@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:wordum/models/dictionary.dart';
 
-class DictionaryPage extends StatelessWidget {
+class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
 
+  @override
+  State<DictionaryPage> createState() => _DictionaryPageState();
+}
+
+class _DictionaryPageState extends State<DictionaryPage> {
+  List<String> wordsToLearn = [];
+
+  void fetchWordList(){
+    setState(() {
+      wordsToLearn = Dictionary.getWords();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    wordsToLearn = Dictionary.getWords();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Center(
-          child: WordList(),
+        Center(
+          child: WordList(wordsToLearn: wordsToLearn,),
         ),
         PositionedButton(
           right: 20,
@@ -20,48 +40,29 @@ class DictionaryPage extends StatelessWidget {
               showDialog(
                 context: context, 
                 builder: (BuildContext context){
-                  return _AddWordDialog();
+                  return _AddWordDialog(
+                    onAdd: fetchWordList
+                  );
                 },
               );
             },
             child: const Icon(Icons.add),
           ),
         ),
-        const PositionedButton(
+        PositionedButton(
           left: 20,
           bottom: 20,
-          child: TrashCan(),),
+          child: TrashCan(
+            onRemove: fetchWordList,
+          ),),
       ],
     );
   }
 }
 
-class WordList extends StatefulWidget {
-  const WordList({super.key});
-
-  @override
-  State<WordList> createState() => _WordListState();
-}
-
-class _WordListState extends State<WordList> {
-  List<String> wordsToLearn = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchWords();
-  }
-
-  Future<void> _fetchWords() async {
-    try {
-      List<String> words = await Dictionary.getWords();
-      setState(() {
-        wordsToLearn = words;
-      });
-    } catch (e) {
-      debugPrint('Error getting word list: $e');
-    }
-  }
+class WordList extends StatelessWidget {
+  final List<String> wordsToLearn;
+  WordList({required this.wordsToLearn});
 
   @override 
   Widget build(BuildContext context){
@@ -80,45 +81,6 @@ class _WordListState extends State<WordList> {
         for (var word in wordsToLearn)
           _DraggableListItem(word)
       ],
-    );
-  }
-}
-
-class _DraggableListItem extends StatelessWidget{
-  final String word;
-  const _DraggableListItem(this.word);
-
-  @override
-  Widget build(BuildContext context){
-    return InkWell(
-      onTap: () {
-
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        
-        child: Draggable<String>(
-          data: word,
-          feedback: Material(
-            // make SizedBox invisible cuz it gets in a way of displaying round corners
-            color: Colors.transparent,
-            child: SizedBox(
-              width: 300,
-              height: 100,
-              child: Card(
-                child: ListTile(
-                  leading: const Icon(Icons.edit),
-                  title: Text(word),
-                ),
-              ),
-            ), 
-          ),
-          child: ListTile(
-            leading: const Icon(Icons.edit),
-            title: Text(word),
-          ),
-        )
-      )
     );
   }
 }
@@ -163,9 +125,49 @@ class PositionedButton extends StatelessWidget{
   }
 }
 
-class TrashCan extends StatelessWidget {
-  const TrashCan({super.key});
+class _DraggableListItem extends StatelessWidget{
+  final String word;
+  const _DraggableListItem(this.word);
 
+  @override
+  Widget build(BuildContext context){
+    return InkWell(
+      onTap: () {
+
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        
+        child: Draggable<String>(
+          data: word,
+          feedback: Material(
+            // make SizedBox invisible cuz it gets in a way of displaying round corners
+            color: Colors.transparent,
+            child: SizedBox(
+              width: 300,
+              height: 100,
+              child: Card(
+                child: ListTile(
+                  leading: const Icon(Icons.edit),
+                  title: Text(word),
+                ),
+              ),
+            ), 
+          ),
+          child: ListTile(
+            leading: const Icon(Icons.edit),
+            title: Text(word),
+          ),
+        )
+      )
+    );
+  }
+}
+
+class TrashCan extends StatelessWidget {
+  final VoidCallback onRemove;
+  TrashCan({required this.onRemove});
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -174,7 +176,11 @@ class TrashCan extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       
-      child: DragTarget(
+      child: DragTarget<String>(
+        onAcceptWithDetails: (dataDetails) {
+          Dictionary.removeWord(dataDetails.data);
+          onRemove();
+        },
         builder: (context, candidateData, rejectedData) {
           return const Icon(
             Icons.delete,
@@ -187,6 +193,9 @@ class TrashCan extends StatelessWidget {
 }
 
 class _AddWordDialog extends StatefulWidget {
+  final VoidCallback onAdd;
+  _AddWordDialog({required this.onAdd});
+
   @override
   State<_AddWordDialog> createState() => _AddWordDialogState();
 }
@@ -228,6 +237,7 @@ class _AddWordDialogState extends State<_AddWordDialog> {
             if (_inputWord.isNotEmpty){
               Dictionary.addWord(_inputWord);
               Navigator.of(context).pop();
+              widget.onAdd();
             }
           },
           child: const Text('Add'),
