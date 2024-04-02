@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordum/views/new_word_page.dart';
 import 'package:wordum/views/dictionary_page.dart';
+import 'package:wordum/views/settings_page.dart';
 import 'package:wordum/views/translation_page.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -26,6 +27,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         page = const TranslatePage();
         break;
+      case 3:
+        page = const SettingsPage();
+        break;
       default:
         throw UnimplementedError(
             'no widget for page with index: $selectedIndex');
@@ -50,6 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.language),
                     label: Text('Translation'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.settings),
+                    label: Text('Settings'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
