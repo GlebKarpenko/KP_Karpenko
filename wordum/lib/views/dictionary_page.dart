@@ -62,7 +62,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
 
 class WordList extends StatelessWidget {
   final List<String> wordsToLearn;
-  WordList({required this.wordsToLearn});
+  const WordList({super.key, required this.wordsToLearn});
 
   @override 
   Widget build(BuildContext context){
@@ -166,7 +166,7 @@ class _DraggableListItem extends StatelessWidget{
 
 class TrashCan extends StatelessWidget {
   final VoidCallback onRemove;
-  TrashCan({required this.onRemove});
+  const TrashCan({super.key, required this.onRemove});
   
   @override
   Widget build(BuildContext context) {
@@ -194,7 +194,7 @@ class TrashCan extends StatelessWidget {
 
 class _AddWordDialog extends StatefulWidget {
   final VoidCallback onAdd;
-  _AddWordDialog({required this.onAdd});
+  const _AddWordDialog({required this.onAdd});
 
   @override
   State<_AddWordDialog> createState() => _AddWordDialogState();
