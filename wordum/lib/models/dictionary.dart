@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Dictionary {
   static late SharedPreferences _preferences;
@@ -22,5 +25,61 @@ class Dictionary {
     List<String> words = _preferences.getStringList(_keyWordList) ?? [];
     words.remove(word);
     _preferences.setStringList(_keyWordList, words);
+  }
+
+  static Future<Map<String, String>> getWordDictionaryData(String word, String languageCode) async{
+    String url = 'https://api.dictionaryapi.dev/api/v2/entries/$languageCode/$word';
+    Map<String, String> wordDictionaryData = {};
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        wordDictionaryData['phonetic'] = responseData[0]['phonetic'];
+        wordDictionaryData['partOfSpeech'] = responseData[0]['meanings'][0]['partOfSpeech'];
+        wordDictionaryData['definition'] = responseData[0]['meanings'][0]['definitions'][0]['definition'];
+
+        return wordDictionaryData;
+      } else {
+        debugPrint('Failed to fetch data: ${response.statusCode}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+    }
+
+    return wordDictionaryData;
+  }
+
+  static Future<Map<String, dynamic>> getWordUsageDictionaryData(String word, String languageCode) async{
+    String url = 'https://api.dictionaryapi.dev/api/v2/entries/$languageCode}/${word}';
+    Map<String, dynamic> wordUsageDictionaryData = {};
+
+    try {
+      final http.Response response = await http.get(
+        Uri.parse(url),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        var definitions = responseData[0]['meanings'][0]['definitions'][0];
+        wordUsageDictionaryData['key'] = 'value';
+        /*
+        List<String> keys = ['synonyms', 'antonyms', 'example'];
+        for (String key in keys) {
+          wordUsageDictionaryData[key] = definitions[key];
+        }
+        */
+
+        return wordUsageDictionaryData;
+      } else {
+        debugPrint('Failed to fetch data: ${response.statusCode}');
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+    }
+    return wordUsageDictionaryData;
   }
 }
