@@ -37,10 +37,10 @@ class Dictionary {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> responseData = jsonDecode(response.body);
-        wordDictionaryData['phonetic'] = responseData[0]['phonetic'];
-        wordDictionaryData['partOfSpeech'] = responseData[0]['meanings'][0]['partOfSpeech'];
-        wordDictionaryData['definition'] = responseData[0]['meanings'][0]['definitions'][0]['definition'];
+        Map<String, dynamic> responseData = jsonDecode(response.body)[0];
+        wordDictionaryData['phonetic'] = responseData['phonetic'] ?? '';
+        wordDictionaryData['partOfSpeech'] = responseData['meanings'][0]['partOfSpeech'] ?? '';
+        wordDictionaryData['definition'] = responseData['meanings'][0]['definitions'][0]['definition'] ?? '';
 
         return wordDictionaryData;
       } else {
@@ -64,14 +64,17 @@ class Dictionary {
 
       if (response.statusCode == 200) {
         List<dynamic> responseData = jsonDecode(response.body);
-        var definitions = responseData[0]['meanings'][0]['definitions'][0];
+        Map<String, dynamic> definitions = responseData[0]['meanings'][0]['definitions'][0];
         wordUsageDictionaryData['key'] = 'value';
-        /*
+        
         List<String> keys = ['synonyms', 'antonyms', 'example'];
         for (String key in keys) {
-          wordUsageDictionaryData[key] = definitions[key];
+          if (definitions.containsKey(key)){
+            wordUsageDictionaryData[key] = definitions[key];
+          } else {
+            wordUsageDictionaryData[key] = '';
+          }
         }
-        */
 
         return wordUsageDictionaryData;
       } else {
