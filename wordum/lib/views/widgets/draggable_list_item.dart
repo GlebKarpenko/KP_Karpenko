@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wordum/views/widgets/word_card.dart';
 
 class DraggableListItem extends StatelessWidget{
   final String word;
-  const DraggableListItem(this.word);
+  const DraggableListItem(this.word, {super.key});
 
   @override
   Widget build(BuildContext context){
@@ -32,6 +33,22 @@ class DraggableListItem extends StatelessWidget{
           child: ListTile(
             leading: const Icon(Icons.edit),
             title: Text(word),
+            onTap: () {
+            // Show details when a list item is clicked
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  content: WordCard(
+                    word: 'placeholder',
+                    languageCode: 'es',
+                    translation: 'translation',
+                    pronunciation: 'phonetic',
+                    definition: 'definition',
+                  ),
+                );
+              });
+            }
           ),
         )
       )

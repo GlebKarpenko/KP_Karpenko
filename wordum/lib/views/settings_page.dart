@@ -11,6 +11,6 @@ class _SettingsPageState extends State<SettingsPage>{
 
   @override
   Widget build(BuildContext context){
-    return Placeholder();
+    return const Placeholder();
   }
 }
