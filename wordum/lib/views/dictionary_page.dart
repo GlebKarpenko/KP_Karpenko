@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordum/models/dictionary.dart';
+import 'widgets/positioned_button.dart';
+import 'widgets/draggable_list_item.dart';
+import 'widgets/add_word_dialog.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
@@ -40,7 +43,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
               showDialog(
                 context: context, 
                 builder: (BuildContext context){
-                  return _AddWordDialog(
+                  return AddWordDialog(
                     onAdd: fetchWordList
                   );
                 },
@@ -79,87 +82,8 @@ class WordList extends StatelessWidget {
               Text('You have ${wordsToLearn.length} words to learn:'),
         ),
         for (var word in wordsToLearn)
-          _DraggableListItem(word)
+          DraggableListItem(word)
       ],
-    );
-  }
-}
-
-class PositionedButton extends StatelessWidget{
-  final Widget child;
-  final double top;
-  final double bottom;
-  final double left;
-  final double right;
-
-  const PositionedButton({
-    required this.child,
-
-    // Set with wrong value that will not be rendered
-    this.top = double.infinity,
-    this.bottom = double.infinity,
-    this.left = double.infinity,
-    this.right = double.infinity,
-
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context){
-    return Positioned(
-
-      // Dont specify positioning if not set
-      top: top != double.infinity ? top : null,
-      bottom: bottom != double.infinity ? bottom : null,
-      left: left != double.infinity ? left : null,
-      right: right != double.infinity ? right : null,
-
-      child: SizedBox(
-        width: 66,
-        height: 66,
-        child: FittedBox(
-          child: child,
-        ),
-      )
-    );
-  }
-}
-
-class _DraggableListItem extends StatelessWidget{
-  final String word;
-  const _DraggableListItem(this.word);
-
-  @override
-  Widget build(BuildContext context){
-    return InkWell(
-      onTap: () {
-
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        
-        child: Draggable<String>(
-          data: word,
-          feedback: Material(
-            // make SizedBox invisible cuz it gets in a way of displaying round corners
-            color: Colors.transparent,
-            child: SizedBox(
-              width: 300,
-              height: 100,
-              child: Card(
-                child: ListTile(
-                  leading: const Icon(Icons.edit),
-                  title: Text(word),
-                ),
-              ),
-            ), 
-          ),
-          child: ListTile(
-            leading: const Icon(Icons.edit),
-            title: Text(word),
-          ),
-        )
-      )
     );
   }
 }
@@ -188,67 +112,6 @@ class TrashCan extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _AddWordDialog extends StatefulWidget {
-  final VoidCallback onAdd;
-  const _AddWordDialog({required this.onAdd});
-
-  @override
-  State<_AddWordDialog> createState() => _AddWordDialogState();
-}
-
-class _AddWordDialogState extends State<_AddWordDialog> {
-  String _inputWord = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Add a word'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            decoration: const InputDecoration(
-              labelText: 'Enter the word'
-            ),
-            onChanged: (String newValue) {
-              setState(() {
-                _inputWord = newValue;
-              });
-            },
-          ),
-          const SizedBox(
-            height: 10,
-            ),
-          const TextField(
-            readOnly: true,
-            decoration: InputDecoration(
-              labelText: 'Translation',
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: (){
-            if (_inputWord.isNotEmpty){
-              Dictionary.addWord(_inputWord);
-              Navigator.of(context).pop();
-              widget.onAdd();
-            }
-          },
-          child: const Text('Add'),
-        ),
-        TextButton(
-          onPressed: (){
-            Navigator.of(context).pop();
-          },
-          child: const Text('Cancel'),
-        )
-      ],
     );
   }
 }
