@@ -28,6 +28,7 @@ class DictionaryWord {
       translation = response;
     } catch (e) {
       debugPrint('Error translating word with user language: $e');
+      translation = name;
     }
   }
 

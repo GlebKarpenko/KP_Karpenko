@@ -54,7 +54,7 @@ class Dictionary {
   }
 
   static Future<Map<String, dynamic>> getWordUsageDictionaryData(String word, String languageCode) async{
-    String url = 'https://api.dictionaryapi.dev/api/v2/entries/$languageCode}/${word}';
+    String url = 'https://api.dictionaryapi.dev/api/v2/entries/$languageCode/$word';
     Map<String, dynamic> wordUsageDictionaryData = {};
 
     try {

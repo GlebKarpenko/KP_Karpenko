@@ -80,12 +80,12 @@ void main() async {
     });
 
     test('Set translation for a dictionary word', () async {
-      DictionaryWord dictionaryWord = DictionaryWord(name: 'test', dateAdded: DateTime.now());
+      DictionaryWord dictionaryWord = DictionaryWord(name: 'hello', dateAdded: DateTime.now());
       dictionaryWord.setTranslation();
 
       const apiKey = 'caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e';
       final translationService = Translation(apiKey);
-      final translatedText = await translationService.translate('test', UserSettings.getFavLanguageCode());
+      final translatedText = await translationService.translate('hello', UserSettings.getFavLanguageCode());
       expect(dictionaryWord.translation, translatedText);
     });
 

@@ -17,6 +17,7 @@ dependencies:
   word_generator: ^0.4.4
   http: ^1.2.1
   shared_preferences: ^2.2.0
+  dio: ^5.4.2+1
 
 dev_dependencies:
   flutter_test:
