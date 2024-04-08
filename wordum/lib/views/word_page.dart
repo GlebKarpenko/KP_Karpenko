@@ -8,11 +8,26 @@ class WordPage extends StatefulWidget{
 }
 
 class _WordPageState extends State<WordPage>{
-
+  final String response = '';
   @override
-  Widget build(BuildContext context){
-    return Container(
-      child: const Placeholder(),
-    );
-  }
+  Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Word details'),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Text('Respose: $response'),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Back'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 }
