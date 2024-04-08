@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordum/models/word_generator.dart';
+import 'widgets/big_card.dart';
 
 class NewWordPage extends StatelessWidget {
   const NewWordPage({super.key});
@@ -52,31 +53,6 @@ class NewWordPage extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.word,
-  });
-
-  final String word;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(word, style: style),
       ),
     );
   }
