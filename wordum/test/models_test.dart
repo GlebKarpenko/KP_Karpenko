@@ -78,39 +78,5 @@ void main() async {
       print(data);
       expect(data, isNotEmpty);
     });
-
-    test('Set translation for a dictionary word', () async {
-      DictionaryWord dictionaryWord = DictionaryWord(name: 'hello', dateAdded: DateTime.now());
-      dictionaryWord.setTranslation();
-
-      const apiKey = 'caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e';
-      final translationService = Translation(apiKey);
-      final translatedText = await translationService.translate('hello', UserSettings.getFavLanguageCode());
-      expect(dictionaryWord.translation, translatedText);
-    });
-
-    test('Set dictionary data to a word', () async {
-      Map<String, String> dictionaryData = {
-        'phonetic': '/test/',
-        'partOfSpeech': 'noun',
-        'definition': 'A challenge, trial.',
-      };
-
-      DictionaryWord dictionaryWord = DictionaryWord(name: 'test', dateAdded: DateTime.now());
-      await dictionaryWord.setDictionaryData();
-      expect(dictionaryWord.dictionaryData, dictionaryData);
-    });
-
-    test('Set dictionary usage data to a word', () async {
-      Map<String, dynamic> dictionaryUsageData = {
-        'synonyms': [],
-        'antonyms': [],
-        'example': 'Children learn through play.',
-      };
-
-      DictionaryWord dictionaryWord = DictionaryWord(name: 'play', dateAdded: DateTime.now());
-      await dictionaryWord.setDictionaryData();
-      expect(dictionaryWord.dictionaryData, dictionaryUsageData);
-    });
   });
 }

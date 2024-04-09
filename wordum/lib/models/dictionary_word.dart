@@ -1,54 +1,46 @@
-import 'package:flutter/material.dart';
-import 'package:wordum/models/dictionary.dart';
-import 'package:wordum/models/settings.dart';
-import 'package:wordum/models/translation.dart';
+import 'dart:convert';
 
 class DictionaryWord {
-  String name;
-  late Map<String, dynamic> dictionaryData;
-  late Map<String, dynamic> usageDictionaryData;
-  late String translation;
-  DateTime dateAdded;
+  final int id;
+  final String word;
+  final Map<String, dynamic> meaning;
+  final List<dynamic> examples;
+  final List<dynamic> associations;
+  final int difficulty;
+  final DateTime dateToLearn;
+  final DateTime dateAdded;
 
   DictionaryWord({
-    required this.name,
+    required this.id,
+    required this.word,
+    required this.meaning,
+    required this.examples,
+    required this.associations,
+    required this.difficulty,
+    required this.dateToLearn,
     required this.dateAdded,
-    dictionaryData,
-    usageDictionaryData,
-    translation,
   });
 
-  Future<void> setTranslation() async{
-    const apiKey = 'caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e';
-    Translation translationService = Translation(apiKey);
-    String userLanguage = UserSettings.getFavLanguage();
+  DictionaryWord.fromMap(Map<String, dynamic> item)
+      : id = item["id"],
+        word = item["word"],
+        meaning = json.decode(item["meaning"]),
+        examples = json.decode(item["examples"]),
+        associations = json.decode(item["associations"]),
+        difficulty = int.parse(item["difficulty"]),
+        dateToLearn = DateTime.parse(item["date_to_learn"]),
+        dateAdded = DateTime.parse(item["date_added"]);
 
-    try {
-      final response = await translationService.translate(name, userLanguage);
-      translation = response;
-    } catch (e) {
-      debugPrint('Error translating word with user language: $e');
-      translation = name;
-    }
-  }
-
-  Future<void> setDictionaryData() async {
-    String userLanguage = UserSettings.getFavLanguage();
-    try {
-      final response = await Dictionary.getWordDictionaryData(name, userLanguage);
-      dictionaryData = response;
-    } catch (e) {
-      debugPrint('Error getting dictionary data for word: $name. Exception: $e');
-    }
-  }
-
-  Future<void> setUsageDictionaryData() async {
-    String userLanguage = UserSettings.getFavLanguage();
-    try {
-      final response = await Dictionary.getWordUsageDictionaryData(name, userLanguage);
-      dictionaryData = response;
-    } catch (e) {
-      debugPrint('Error getting dictionary data for word: $name. Exception: $e');
-    }
+  Map<String, dynamic> toMap(){
+    return {
+      'id': id,
+      'word': word,
+      'meaning': json.encode(meaning),
+      'examples': json.encode(examples),
+      'associations': json.encode(associations),
+      'difficulty': difficulty,
+      'date_to_learn': dateToLearn.toIso8601String(),
+      'date_added': dateAdded.toIso8601String(),
+    };
   }
 }
