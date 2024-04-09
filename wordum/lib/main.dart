@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:wordum/models/dictionary.dart';
 import 'package:wordum/models/settings.dart';
-import 'package:wordum/models/word_generator.dart';
+import 'package:wordum/services/word_generator.dart';
 import 'package:wordum/views/home_page.dart';
 
 void main() async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordum/models/translation.dart';
+import 'package:wordum/services/translation.dart';
 
 class TranslatePage extends StatefulWidget {
   const TranslatePage({super.key});

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wordum/models/dictionary_word.dart';
 import 'package:wordum/models/settings.dart';
-import 'package:wordum/models/translation.dart';
+import 'package:wordum/services/translation.dart';
 import 'package:wordum/models/dictionary.dart';
 
 void main() async {
