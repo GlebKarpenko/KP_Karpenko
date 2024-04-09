@@ -56,10 +56,7 @@ class WordCard extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const WordPage()),
-                    );
+                    Navigator.of(context).pop();
                   },
                   child: const Text('Close'),
                 ),
