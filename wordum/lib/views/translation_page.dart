@@ -15,7 +15,7 @@ class _TranslatePageState extends State<TranslatePage> {
   String? _selectedLanguageCode = 'es';
   Map<String, String> _availableLanguages = {};
 
-  final Translation _translation = Translation('caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e');
+  final Translation _translation = Translation();
   final TextEditingController _outputTextController = TextEditingController();
 
   @override

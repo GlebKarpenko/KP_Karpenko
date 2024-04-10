@@ -17,8 +17,7 @@ void main() async {
     });
 
     test('Translation test', () async {
-      const apiKey = 'caecaa083bmsh63028a0fa2649c7p1ca969jsna79169fea24e';
-      final translationService = Translation(apiKey);
+      final translationService = Translation();
 
       const textToTranslate = 'hello';
       const targetLanguage = 'fr';

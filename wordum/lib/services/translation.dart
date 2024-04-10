@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Translation extends ChangeNotifier{
-  final String apiKey;
-
-  Translation(this.apiKey);
-
    Future<Map<String, String>> getLanguages() async {
     Map<String, String> languages = {};
     try {
