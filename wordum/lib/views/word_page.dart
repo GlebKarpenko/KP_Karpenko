@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:wordum/models/dictionary_word.dart';
-import 'package:wordum/views/widgets/word_details.dart';
 
 class WordPage extends StatelessWidget {
   final DictionaryWord dictionaryWord;
 
-  const WordPage({super.key, required this.dictionaryWord});
+  final TextStyle headerStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
+  final TextStyle labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0);
+  final TextStyle bodyStyle = const TextStyle(fontSize: 16.0);
+
+  const WordPage({
+      super.key, 
+      required this.dictionaryWord
+    });
 
   @override
    Widget build(BuildContext context) {
@@ -16,12 +22,50 @@ class WordPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            WordDetails(dictionaryWord: dictionaryWord),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Back'),
+            Container(
+              padding: const EdgeInsets.all(40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(dictionaryWord.word, style: headerStyle),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('translation: ', style: labelStyle),
+                      Text('(en)translation ', style: bodyStyle),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  const TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Definition',
+                        border: OutlineInputBorder(),
+                      ),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Save')
+                      ),
+                      const SizedBox(width: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Back')
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
