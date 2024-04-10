@@ -32,6 +32,20 @@ class SqliteService {
     return wordMaps.map((e) => DictionaryWord.fromMap(e)).toList();
   }
 
+  Future<DictionaryWord?> getWord(String word) async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> wordMaps = await db.query(
+      'words',
+      where: 'word = ?',
+      whereArgs: [word],
+    );
+
+    if (wordMaps.isEmpty) {
+      return null;
+    }
+    return DictionaryWord.fromMap(wordMaps.first);
+  }
+
   Future<void> updateWord(DictionaryWord word) async {
     final Database db = await initializeDB();
     await db.update(
