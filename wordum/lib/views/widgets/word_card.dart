@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:wordum/models/dictionary_word.dart';
+import 'package:wordum/models/word_editor.dart';
 import 'package:wordum/views/word_page.dart';
 
 class WordCard extends StatelessWidget {
-  final String word;
-  final String languageCode;
-  final String translation;
-  final String pronunciation;
-  final String definition;
+  DictionaryWord displayedWord;
 
   final TextStyle wordStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle textStyle = const TextStyle(fontSize: 16.0);
 
-  const WordCard({super.key, 
-    required this.word,
-    required this.languageCode,
-    required this.translation,
-    required this.pronunciation,
-    required this.definition,
+  WordCard({
+    super.key, 
+    required this.displayedWord,
   });
+
+  String getDefinition(){
+    Map<String, dynamic> meanings = displayedWord.meaning;
+    if (meanings.isNotEmpty){
+      return meanings.entries.first.toString();
+    }
+    return "click more to add definition";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +33,11 @@ class WordCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              word,
+              displayedWord.word,
               style: wordStyle,
             ),
             const SizedBox(height: 8.0),
+            /*
             Row(
               children: [
                 Text(pronunciation, style: textStyle,),
@@ -41,15 +45,18 @@ class WordCard extends StatelessWidget {
                 Text('($languageCode) $translation', style: textStyle,),
               ],
             ),
+            */
             const SizedBox(height: 8.0),
-            Text(definition, style: textStyle,),
+            Text(getDefinition(), style: textStyle,),
             const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => WordPage()));
+                  onPressed: () {             
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => WordPage(
+                      dictionaryWord: displayedWord,
+                    )));
                   },
                   child: const Text('More'),
                 ),

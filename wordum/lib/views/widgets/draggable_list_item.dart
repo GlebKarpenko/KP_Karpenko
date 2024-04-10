@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wordum/models/dictionary_word.dart';
+import 'package:wordum/models/word_editor.dart';
 import 'package:wordum/views/widgets/word_card.dart';
 
 class DraggableListItem extends StatelessWidget{
@@ -33,21 +35,26 @@ class DraggableListItem extends StatelessWidget{
           child: ListTile(
             leading: const Icon(Icons.edit),
             title: Text(word),
-            onTap: () {
-            // Show details when a list item is clicked
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  content: WordCard(
-                    word: 'placeholder',
-                    languageCode: 'es',
-                    translation: 'translation',
-                    pronunciation: 'phonetic',
-                    definition: 'definition',
-                  ),
-                );
-              });
+            onTap: () async {
+              // :(
+              WordEditor editor = WordEditor();
+              DictionaryWord emptyWord = editor.getEmptyWord();
+              DictionaryWord displayedWord = await editor.getWord(word);
+
+              if (displayedWord.id == emptyWord.id){
+                displayedWord = DictionaryWord.setWord(emptyWord, word);
+              }
+              
+              // Show details when a list item is clicked
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: WordCard(
+                      displayedWord: displayedWord,
+                    ),
+                  );
+                });
             }
           ),
         )
