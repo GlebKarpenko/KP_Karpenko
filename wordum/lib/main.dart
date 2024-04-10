@@ -15,6 +15,9 @@ void main() async {
   await UserSettings.init();
   await Dictionary.init();
 
+  UserSettings.setFavLanguage('Spanish');
+  UserSettings.setFavLanguageCode('es');
+
   runApp(MyApp());
 }
 

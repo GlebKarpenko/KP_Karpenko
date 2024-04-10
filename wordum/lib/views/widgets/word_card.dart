@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wordum/models/dictionary_word.dart';
-import 'package:wordum/models/word_editor.dart';
 import 'package:wordum/views/word_page.dart';
 
 class WordCard extends StatelessWidget {
   DictionaryWord displayedWord;
+  String translationLanguageCode;
+  String translation;
 
   final TextStyle wordStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle textStyle = const TextStyle(fontSize: 16.0);
@@ -12,6 +13,8 @@ class WordCard extends StatelessWidget {
   WordCard({
     super.key, 
     required this.displayedWord,
+    required this.translationLanguageCode,
+    required this.translation,
   });
 
   String getDefinition(){
@@ -37,15 +40,7 @@ class WordCard extends StatelessWidget {
               style: wordStyle,
             ),
             const SizedBox(height: 8.0),
-            /*
-            Row(
-              children: [
-                Text(pronunciation, style: textStyle,),
-                const SizedBox(width: 16.0),
-                Text('($languageCode) $translation', style: textStyle,),
-              ],
-            ),
-            */
+            Text('($translationLanguageCode) $translation', style: textStyle,),
             const SizedBox(height: 8.0),
             Text(getDefinition(), style: textStyle,),
             const SizedBox(height: 16.0),
