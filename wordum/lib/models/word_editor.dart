@@ -21,7 +21,7 @@ class WordEditor {
   Future<DictionaryWord> getWord(String word) async {
     var result = await sqliteService.getWord(word);
     if (result == null){
-      DictionaryWord emptyWord = await getEmptyWord();
+      DictionaryWord emptyWord = getEmptyWord();
       return emptyWord;
     }
     else {

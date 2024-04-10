@@ -3,9 +3,9 @@ import 'package:wordum/models/dictionary_word.dart';
 import 'package:wordum/views/word_page.dart';
 
 class WordCard extends StatelessWidget {
-  DictionaryWord displayedWord;
-  String translationLanguageCode;
-  String translation;
+  final DictionaryWord displayedWord;
+  final String translationLanguageCode;
+  final String translation;
 
   final TextStyle wordStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle textStyle = const TextStyle(fontSize: 16.0);

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wordum/models/dictionary_word.dart'; // Import your DictionaryWord model
+import 'package:wordum/models/dictionary_word.dart';
 
 class WordDetails extends StatelessWidget {
   final DictionaryWord dictionaryWord;
 
-  WordDetails({
-      Key? key, 
+  const WordDetails({
+      super.key, 
       required this.dictionaryWord
-    }) : super(key: key);
+    });
 
   @override
   Widget build(BuildContext context) {
