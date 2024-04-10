@@ -19,7 +19,6 @@ void main() async {
       databaseFactory = databaseFactoryFfi;
       
       SqliteService sqliteService = SqliteService();
-      final database = sqliteService.initializeDB();
 
       var testWord = DictionaryWord(
       id: 0,
