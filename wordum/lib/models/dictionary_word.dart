@@ -7,8 +7,8 @@ class DictionaryWord {
   final List<dynamic> examples;
   final List<dynamic> associations;
   final int difficulty;
-  final DateTime dateToLearn;
-  final DateTime dateAdded;
+  final DateTime? dateToLearn;
+  final DateTime? dateAdded;
 
   DictionaryWord({
     required this.id,
@@ -20,6 +20,26 @@ class DictionaryWord {
     required this.dateToLearn,
     required this.dateAdded,
   });
+
+  DictionaryWord.copy(DictionaryWord other)
+    : id = other.id,
+      word = other.word,
+      meaning = Map.from(other.meaning),
+      examples = List.from(other.examples),
+      associations = List.from(other.associations),
+      difficulty = other.difficulty,
+      dateToLearn = other.dateToLearn,
+      dateAdded = other.dateAdded;
+
+  DictionaryWord.setWord(DictionaryWord other, String newWord)
+    : id = other.id,
+      word = newWord,
+      meaning = Map.from(other.meaning),
+      examples = List.from(other.examples),
+      associations = List.from(other.associations),
+      difficulty = other.difficulty,
+      dateToLearn = other.dateToLearn,
+      dateAdded = other.dateAdded;
 
   DictionaryWord.fromMap(Map<String, dynamic> item)
       : id = item["id"],
@@ -39,8 +59,8 @@ class DictionaryWord {
       'examples': json.encode(examples),
       'associations': json.encode(associations),
       'difficulty': difficulty,
-      'date_to_learn': dateToLearn.toIso8601String(),
-      'date_added': dateAdded.toIso8601String(),
+      'date_to_learn': dateToLearn?.toIso8601String(),
+      'date_added': dateAdded?.toIso8601String(),
     };
   }
 }
