@@ -4,6 +4,10 @@ import 'package:wordum/views/dictionary_page.dart';
 import 'package:wordum/views/settings_page.dart';
 import 'package:wordum/views/translation_page.dart';
 
+/// The home page.
+/// 
+/// The home page has a navigation rail that sets the layout which should be built.
+/// By default it is [NewWordPage]. The naviagtion rail text gets reszied to minimal on 600 screen width.
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 

@@ -8,16 +8,26 @@ class TranslatePage extends StatefulWidget {
   _TranslatePageState createState() => _TranslatePageState();
 }
 
+/// Translation page.
+/// 
+/// Translation page provides interface for user to use [Translation] service. 
+/// [_TranslatePageState] gets a list of available languages from [Translation] service.
+/// Translates input text using [Translation] service.
+/// By default [_selectedLanguage] is set to 'Spanish'.
 class _TranslatePageState extends State<TranslatePage> {
   String _inputText = '';
   String _translatedText = '';
+  // TODO: change selected language to the one set by user in UserSettings
   String _selectedLanguage = 'Spanish';
   String? _selectedLanguageCode = 'es';
   Map<String, String> _availableLanguages = {};
 
+  /// An instance of [Translation] service.
   final Translation _translation = Translation();
+  /// Controller for showing translated text.
   final TextEditingController _outputTextController = TextEditingController();
 
+  /// Get available languaes on init.
   @override
   void initState() {
     super.initState();
@@ -88,6 +98,7 @@ class _TranslatePageState extends State<TranslatePage> {
     );
   }
 
+  /// Gets a list of languages from [_translation] service.
   Future<void> _getLanguages() async {
     try {
       final response = await _translation.getLanguages();
@@ -99,6 +110,7 @@ class _TranslatePageState extends State<TranslatePage> {
     }
   }
 
+  /// Translate text and give it to [_outputTextController].
   Future<void> _translateText() async {
     print(_selectedLanguageCode);
     try {

@@ -3,6 +3,11 @@ import 'package:wordum/models/dictionary.dart';
 import 'widgets/positioned_button.dart';
 import 'widgets/draggable_list_item.dart';
 
+/// Dictionary display page.
+/// 
+/// The page shows the list of words for user to learn, or ask them to 
+/// go to [NewWordPage] if no words were added. The page fetches list of words from [Dictionary] model
+/// and interacts with it by calling [Dictionary] model methods in action buttons and popup dialogs.
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
 

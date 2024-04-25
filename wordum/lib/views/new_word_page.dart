@@ -4,6 +4,11 @@ import 'package:wordum/services/word_generator.dart';
 import 'package:wordum/views/widgets/rounded_text_box.dart';
 import 'widgets/big_card.dart';
 
+/// Page giving a new word to learn
+/// 
+/// The page displays a new generated word given by word_generator service.
+/// The word is shown in [BigCard] widget. Over is a question inside [RoundedTextBox].
+/// The user input is made by 3 buttons: for skiping or adding the word.
 class NewWordPage extends StatelessWidget {
   const NewWordPage({super.key});
 

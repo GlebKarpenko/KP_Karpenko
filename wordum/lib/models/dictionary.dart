@@ -27,6 +27,8 @@ class Dictionary {
     _preferences.setStringList(_keyWordList, words);
   }
 
+  // TODO: move these methods into new dictionary_word_lookup service; 
+  //  use this API instead: https://rapidapi.com/twinword/api/word-dictionary/
   static Future<Map<String, String>> getWordDictionaryData(String word, String languageCode) async{
     String url = 'https://api.dictionaryapi.dev/api/v2/entries/$languageCode/$word';
     Map<String, String> wordDictionaryData = {};

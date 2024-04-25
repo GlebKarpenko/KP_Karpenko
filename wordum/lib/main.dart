@@ -6,6 +6,10 @@ import 'package:wordum/models/settings.dart';
 import 'package:wordum/services/word_generator.dart';
 import 'package:wordum/views/home_page.dart';
 
+/// The main function of the application.
+/// 
+/// The function initializes the neccessary components of the application that need 
+/// to be initialized before running, like: [UserSettings], [Dictionary], and SQLite database.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -15,12 +19,17 @@ void main() async {
   await UserSettings.init();
   await Dictionary.init();
 
+  // Setting user settings before the UI is made for it.
   UserSettings.setFavLanguage('Spanish');
   UserSettings.setFavLanguageCode('es');
 
   runApp(MyApp());
 }
 
+/// The application class.
+/// 
+/// Before building itself it sets color sheme from argb value given by [UserSettings]. 
+/// If it's not set, default value is used. After that the application is built from [MyHomePage].
 class MyApp extends StatelessWidget {
   static List<int> argb = [255, 181, 113, 41];
 
