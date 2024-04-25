@@ -10,7 +10,7 @@ class WordCard extends StatelessWidget {
   final TextStyle wordStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle textStyle = const TextStyle(fontSize: 16.0);
 
-  const WordCard({
+  WordCard({
     super.key, 
     required this.displayedWord,
     required this.translationLanguageCode,
@@ -18,9 +18,9 @@ class WordCard extends StatelessWidget {
   });
 
   String getDefinition(){
-    Map<String, dynamic> meanings = displayedWord.meaning;
-    if (meanings.isNotEmpty){
-      return meanings.entries.first.toString();
+    Map<String, dynamic> meaning = displayedWord.meaning;
+    if (meaning.isNotEmpty){
+      return meaning.entries.first.toString();
     }
     return "click more to add definition";
   }

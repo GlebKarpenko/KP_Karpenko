@@ -5,6 +5,11 @@ import 'package:wordum/models/settings.dart';
 import 'package:wordum/services/translation.dart';
 import 'package:wordum/views/widgets/word_card.dart';
 
+// This is a hackerton class.
+// The translation and dictionary lookup service are used here temporaly.
+// The functionality of searching words up will DEFINITELY be removed in future 
+// once db interfaces are all good. Translation and definition should not be loaded up 
+// every time a user clicks but taken from local db instead.
 class DraggableListItem extends StatelessWidget{
   final String word;
   const DraggableListItem(this.word, {super.key});
@@ -58,7 +63,7 @@ class DraggableListItem extends StatelessWidget{
               }
 
               // translating word every time 'more' button is clicked
-              Map<String, String> translationData = await getTranslation();
+              Map<String, dynamic> translationData = await getTranslation();
 
               // Show details when a list item is clicked
               showDialog(
