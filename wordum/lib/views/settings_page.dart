@@ -93,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Colors.grey.shade300,
+              color: Colors.grey.shade400,
             ),
             child: Wrap(
               spacing: 8.0,

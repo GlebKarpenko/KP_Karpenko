@@ -51,6 +51,7 @@ class WordCard extends StatelessWidget {
                   onPressed: () {             
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => WordPage(
                       dictionaryWord: displayedWord,
+                      translation: '($translationLanguageCode) $translation',
                     )));
                   },
                   child: const Text('More'),

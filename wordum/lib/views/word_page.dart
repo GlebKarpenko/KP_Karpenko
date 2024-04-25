@@ -8,6 +8,7 @@ import 'package:wordum/models/dictionary_word.dart';
 // TODO: implement inferface with Dictionary model. 
 class WordPage extends StatelessWidget {
   final DictionaryWord dictionaryWord;
+  final String translation;
 
   final TextStyle headerStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0);
@@ -15,7 +16,8 @@ class WordPage extends StatelessWidget {
 
   const WordPage({
       super.key, 
-      required this.dictionaryWord
+      required this.dictionaryWord,
+      required this.translation,
     });
 
   @override
@@ -40,7 +42,7 @@ class WordPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('translation: ', style: labelStyle),
-                      Text('(en)translation ', style: bodyStyle),
+                      Text(translation, style: bodyStyle),
                     ],
                   ),
                   const SizedBox(height: 15),
