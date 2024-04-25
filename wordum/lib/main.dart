@@ -19,10 +19,6 @@ void main() async {
   await UserSettings.init();
   await Dictionary.init();
 
-  // Setting user settings before the UI is made for it.
-  UserSettings.setFavLanguage('Spanish');
-  UserSettings.setFavLanguageCode('es');
-
   runApp(MyApp());
 }
 

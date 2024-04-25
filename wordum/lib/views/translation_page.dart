@@ -17,6 +17,7 @@ class TranslatePage extends StatefulWidget {
 class _TranslatePageState extends State<TranslatePage> {
   String _inputText = '';
   String _translatedText = '';
+
   // TODO: change selected language to the one set by user in UserSettings
   String _selectedLanguage = 'Spanish';
   String? _selectedLanguageCode = 'es';
@@ -27,7 +28,7 @@ class _TranslatePageState extends State<TranslatePage> {
   /// Controller for showing translated text.
   final TextEditingController _outputTextController = TextEditingController();
 
-  /// Get available languaes on init.
+  /// Get available languages on init.
   @override
   void initState() {
     super.initState();
