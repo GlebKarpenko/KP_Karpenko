@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordum/services/word_generator.dart';
+import 'package:wordum/views/widgets/rounded_text_box.dart';
 import 'widgets/big_card.dart';
 
 class NewWordPage extends StatelessWidget {
@@ -19,6 +20,14 @@ class NewWordPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          RoundedTextBox(
+            title: 'Do you know this word?',
+            backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+            textStyle: TextStyle(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              fontSize: 16.0, 
+              fontWeight: FontWeight.bold)),
+          const SizedBox(height: 10),
           BigCard(word: newWord),
           const SizedBox(height: 10),
           Row(
