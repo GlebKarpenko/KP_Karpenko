@@ -10,7 +10,7 @@ class WordCard extends StatelessWidget {
   final TextStyle wordStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   final TextStyle textStyle = const TextStyle(fontSize: 16.0);
 
-  WordCard({
+  const WordCard({
     super.key, 
     required this.displayedWord,
     required this.translationLanguageCode,
