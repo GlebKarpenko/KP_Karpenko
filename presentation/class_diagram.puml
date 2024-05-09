@@ -1,1 +1,270 @@
- 
+@startuml
+set namespaceSeparator ::
+
+class "wordum::models::dictionary_word.dart::DictionaryWord" {
+  +int id
+  +String word
+  +Map<String, dynamic> meaning
+  +List<dynamic> examples
+  +List<dynamic> associations
+  +int difficulty
+  +DateTime? dateToLearn
+  +DateTime? dateAdded
+  +Map<String, dynamic> toMap()
+}
+
+class "wordum::models::dictionary.dart::Dictionary" {
+  {static} -SharedPreferences _preferences
+  {static} -String _keyWordList
+  {static} +dynamic init()
+  {static} +List<String> getWords()
+  {static} +dynamic addWord()
+  {static} +dynamic removeWord()
+  {static} +dynamic getWordDictionaryData()
+  {static} +dynamic getWordUsageDictionaryData()
+}
+
+"wordum::models::dictionary.dart::Dictionary" o-- "shared_preferences::shared_preferences.dart::SharedPreferences"
+
+class "wordum::models::settings.dart::UserSettings" {
+  {static} -SharedPreferences _preferences
+  {static} -String _favLanguageKey
+  {static} -String _favLanguageCodeKey
+  {static} -String _colorShemeARGBKey
+  {static} +String NONE
+  {static} +dynamic init()
+  {static} +dynamic setColorShemeARGB()
+  {static} +dynamic setFavLanguage()
+  {static} +dynamic setFavLanguageCode()
+  {static} +List<int> getColorShemeARGB()
+  {static} +String getFavLanguage()
+  {static} +String getFavLanguageCode()
+}
+
+"wordum::models::settings.dart::UserSettings" o-- "shared_preferences::shared_preferences.dart::SharedPreferences"
+
+class "wordum::models::word_editor.dart::WordEditor" {
+  +SqliteService sqliteService
+  +DictionaryWord getEmptyWord()
+  +dynamic getWord()
+  +dynamic updateWord()
+}
+
+"wordum::models::word_editor.dart::WordEditor" o-- "wordum::services::sqlite_service.dart::SqliteService"
+
+class "wordum::services::word_generator.dart::WordView" {
+  +WordGenerator wordGenerator
+  +String newWord
+  +void getNext()
+  +void addWord()
+}
+
+"wordum::services::word_generator.dart::WordView" o-- "word_generator::src::words.dart::WordGenerator"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "wordum::services::word_generator.dart::WordView"
+
+class "wordum::services::definition_lookup.dart::DictionaryLookup" {
+  +dynamic getDefinition()
+}
+
+class "wordum::services::translation.dart::Translation" {
+  +dynamic getLanguages()
+  +dynamic translate()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "wordum::services::translation.dart::Translation"
+
+class "wordum::services::sqlite_service.dart::SqliteService" {
+  +dynamic initializeDB()
+  +dynamic createWord()
+  +dynamic getWords()
+  +dynamic getWord()
+  +dynamic updateWord()
+  +dynamic deleteWord()
+}
+
+class "wordum::views::new_word_page.dart::NewWordPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::new_word_page.dart::NewWordPage"
+
+class "wordum::views::dictionary_page.dart::DictionaryPage" {
+  +State<DictionaryPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "wordum::views::dictionary_page.dart::DictionaryPage"
+
+class "wordum::views::dictionary_page.dart::_DictionaryPageState" {
+  +List<String> wordsToLearn
+  +void fetchWordList()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "wordum::views::dictionary_page.dart::_DictionaryPageState"
+
+class "wordum::views::dictionary_page.dart::WordList" {
+  +List<String> wordsToLearn
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::dictionary_page.dart::WordList"
+
+class "wordum::views::dictionary_page.dart::TrashCan" {
+  +void Function() onRemove
+  +Widget build()
+}
+
+"wordum::views::dictionary_page.dart::TrashCan" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::dictionary_page.dart::TrashCan"
+
+class "wordum::views::dictionary_page.dart::_AddWordDialog" {
+  +void Function() onAdd
+  +State<_AddWordDialog> createState()
+}
+
+"wordum::views::dictionary_page.dart::_AddWordDialog" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "wordum::views::dictionary_page.dart::_AddWordDialog"
+
+class "wordum::views::dictionary_page.dart::_AddWordDialogState" {
+  -String _inputWord
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "wordum::views::dictionary_page.dart::_AddWordDialogState"
+
+class "wordum::views::widgets::draggable_list_item.dart::DraggableListItem" {
+  +String word
+  +dynamic getTranslation()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::widgets::draggable_list_item.dart::DraggableListItem"
+
+class "wordum::views::widgets::big_card.dart::BigCard" {
+  +String word
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::widgets::big_card.dart::BigCard"
+
+class "wordum::views::widgets::word_card.dart::WordCard" {
+  +DictionaryWord displayedWord
+  +String translationLanguageCode
+  +String translation
+  +TextStyle wordStyle
+  +TextStyle textStyle
+  +String getDefinition()
+  +Widget build()
+}
+
+"wordum::views::widgets::word_card.dart::WordCard" o-- "wordum::models::dictionary_word.dart::DictionaryWord"
+"wordum::views::widgets::word_card.dart::WordCard" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::widgets::word_card.dart::WordCard"
+
+class "wordum::views::widgets::positioned_button.dart::PositionedButton" {
+  +Widget child
+  +double top
+  +double bottom
+  +double left
+  +double right
+  +Widget build()
+}
+
+"wordum::views::widgets::positioned_button.dart::PositionedButton" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::widgets::positioned_button.dart::PositionedButton"
+
+class "wordum::views::widgets::rounded_text_box.dart::RoundedTextBox" {
+  +String title
+  +Color backgroundColor
+  +double borderRadius
+  +TextStyle textStyle
+  +EdgeInsets padding
+  +Widget build()
+}
+
+"wordum::views::widgets::rounded_text_box.dart::RoundedTextBox" o-- "dart::ui::Color"
+"wordum::views::widgets::rounded_text_box.dart::RoundedTextBox" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"wordum::views::widgets::rounded_text_box.dart::RoundedTextBox" o-- "flutter::src::painting::edge_insets.dart::EdgeInsets"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::widgets::rounded_text_box.dart::RoundedTextBox"
+
+class "wordum::views::settings_page.dart::SettingsPage" {
+  +State<SettingsPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "wordum::views::settings_page.dart::SettingsPage"
+
+class "wordum::views::settings_page.dart::_SettingsPageState" {
+  -Map<String, String> _availableLanguages
+  -Translation _translation
+  -String _selectedLanguage
+  -List<List<int>> _colorSchemes
+  -List<int> _selectedColorScheme
+  +void initState()
+  -dynamic _getLanguages()
+  +Widget build()
+}
+
+"wordum::views::settings_page.dart::_SettingsPageState" o-- "wordum::services::translation.dart::Translation"
+"flutter::src::widgets::framework.dart::State" <|-- "wordum::views::settings_page.dart::_SettingsPageState"
+
+class "wordum::views::home_page.dart::MyHomePage" {
+  +State<MyHomePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "wordum::views::home_page.dart::MyHomePage"
+
+class "wordum::views::home_page.dart::_MyHomePageState" {
+  +int selectedIndex
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "wordum::views::home_page.dart::_MyHomePageState"
+
+class "wordum::views::word_page.dart::WordPage" {
+  +DictionaryWord dictionaryWord
+  +String translation
+  +TextStyle headerStyle
+  +TextStyle labelStyle
+  +TextStyle bodyStyle
+  +Widget build()
+}
+
+"wordum::views::word_page.dart::WordPage" o-- "wordum::models::dictionary_word.dart::DictionaryWord"
+"wordum::views::word_page.dart::WordPage" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::views::word_page.dart::WordPage"
+
+class "wordum::views::translation_page.dart::TranslatePage" {
+  +_TranslatePageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "wordum::views::translation_page.dart::TranslatePage"
+
+class "wordum::views::translation_page.dart::_TranslatePageState" {
+  -String _inputText
+  -String _translatedText
+  -String _selectedLanguage
+  -String? _selectedLanguageCode
+  -Map<String, String> _availableLanguages
+  -Translation _translation
+  -TextEditingController _outputTextController
+  +void initState()
+  +Widget build()
+  -dynamic _getLanguages()
+  -dynamic _translateText()
+}
+
+"wordum::views::translation_page.dart::_TranslatePageState" o-- "wordum::services::translation.dart::Translation"
+"wordum::views::translation_page.dart::_TranslatePageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "wordum::views::translation_page.dart::_TranslatePageState"
+
+class "wordum::main.dart::MyApp" {
+  {static} +List<int> argb
+  {static} +void setARGB()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "wordum::main.dart::MyApp"
+
+
+@enduml
