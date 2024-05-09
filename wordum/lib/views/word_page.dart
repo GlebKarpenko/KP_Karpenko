@@ -4,8 +4,6 @@ import 'package:wordum/models/dictionary_word.dart';
 /// Page about details of a word.
 /// 
 /// The page for adding and displaying all word data as in [DictionaryWord] model.
-
-// TODO: implement inferface with Dictionary model. 
 class WordPage extends StatelessWidget {
   final DictionaryWord dictionaryWord;
   final String translation;

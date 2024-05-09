@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordum/models/settings.dart';
 import 'package:wordum/services/translation.dart';
 
 class TranslatePage extends StatefulWidget {
@@ -13,14 +14,13 @@ class TranslatePage extends StatefulWidget {
 /// Translation page provides interface for user to use [Translation] service. 
 /// [_TranslatePageState] gets a list of available languages from [Translation] service.
 /// Translates input text using [Translation] service.
-/// By default [_selectedLanguage] is set to 'Spanish'.
+/// By default [_selectedLanguage] is set to the one in [UserSettings]'.
 class _TranslatePageState extends State<TranslatePage> {
   String _inputText = '';
   String _translatedText = '';
 
-  // TODO: change selected language to the one set by user in UserSettings
-  String _selectedLanguage = 'Spanish';
-  String? _selectedLanguageCode = 'es';
+  String _selectedLanguage = UserSettings.getFavLanguage();
+  String? _selectedLanguageCode = UserSettings.getFavLanguageCode();
   Map<String, String> _availableLanguages = {};
 
   /// An instance of [Translation] service.
