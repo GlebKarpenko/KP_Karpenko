@@ -43,6 +43,6 @@
 ## Відео презентація
 
 <video width="640" height="360" controls>
-  <source src="video_presentation.mp4" type="video/mp4">
+  <source src="vertopal_192a9fb41ab64d2ba734008e0e9b9999/media/video_presentation.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
